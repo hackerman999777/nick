@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./backend:/usr/src/app
+    restart: unless-stopped
+
+  agent:
+    build:
+      context: ./agent
+    command: ["python", "agent.py"]
+    volumes:
+      - ./agent:/agent
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/usr/src/app
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
